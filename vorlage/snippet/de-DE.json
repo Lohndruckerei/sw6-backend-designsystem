@@ -3,9 +3,9 @@
         "switchLabel": "Design",
         "default": "Standard",
         "designs": {
-            "a": "A · Hafen",
-            "b": "B · Druckbogen",
-            "c": "C · Kompass"
+            "a": "A · Hafen – nah am Shopware-Standard",
+            "b": "B · Druckbogen – Markenfarbe und CMYK",
+            "c": "C · Kompass – Cockpit mit Seitennavigation"
         },
         "states": {
             "ok": "Aktiv",
@@ -17,7 +17,7 @@
             "email": "E-Mail",
             "ftp": "FTP",
             "sftp": "SFTP",
-            "portal_manual": "B2B-Portal",
+            "portal_manual": "Portal (manuell)",
             "rest_api": "REST-API",
             "soap": "SOAP",
             "webhook": "Webhook"

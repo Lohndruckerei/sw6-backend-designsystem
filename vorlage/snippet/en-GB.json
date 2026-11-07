@@ -3,9 +3,9 @@
         "switchLabel": "Design",
         "default": "default",
         "designs": {
-            "a": "A · Harbour",
-            "b": "B · Press sheet",
-            "c": "C · Compass"
+            "a": "A · Harbour – close to Shopware",
+            "b": "B · Print sheet – brand colour and CMYK",
+            "c": "C · Compass – cockpit with side navigation"
         },
         "states": {
             "ok": "Active",
@@ -17,7 +17,7 @@
             "email": "Email",
             "ftp": "FTP",
             "sftp": "SFTP",
-            "portal_manual": "B2B portal",
+            "portal_manual": "Portal (manual)",
             "rest_api": "REST API",
             "soap": "SOAP",
             "webhook": "Webhook"
