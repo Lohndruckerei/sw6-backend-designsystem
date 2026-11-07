@@ -17,3 +17,8 @@ jedem Plugin dasselbe Look-and-Feel vor, und die Bedienung bleibt intuitiv.
 - Shell-Befehle in WSL über Skriptdateien ausführen (`wsl -d ubuntu -e bash …`). Nach Änderungen
   an `sync.sh` per Windows-Pfad das Ausführungsrecht prüfen (`chmod +x`).
 - Texte auf Deutsch; Snippets in de-DE und en-GB.
+
+## Git
+- Repository: git@github.com:Lohndruckerei/sw6-backend-designsystem.git (Branch `main`)
+- Zugriff über Deploy-Key `~/.ssh/backend_designsystem_deploy` (in `core.sshCommand` hinterlegt, ohne Passphrase)
+- Nach jeder getesteten Änderung committen und pushen; nie force-pushen.
