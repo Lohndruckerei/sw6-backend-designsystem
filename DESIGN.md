@@ -68,7 +68,7 @@ sind in Shopware global), gilt:
 - **Neue Plugins wählen ein freies Kürzel** und tragen es hier ein. Das Kürzel `ld-` ist von
   LieferLotse belegt, obwohl es eigentlich die ganze Familie meint. Eine Umbenennung auf `ll-` ist
   möglich, aber nur in Absprache mit der LieferLotse-Entwicklung.
-- Belegte Kürzel: `ld-` LieferLotse, `lm-` Mensura. Vorschläge: `la-` Auftragsverteilung,
+- Belegte Kürzel: `ld-` LieferLotse, `lm-` Mensura, `lv-` Vectura (Versand, Arbeitsname). Vorschläge: `la-` Auftragsverteilung,
   `lf-` Druckdaten-Freigabe, `lc-` Connectoren.
 - Alle Regeln hängen an `.<präfix>-design` bzw. `.<präfix>-design--{a|b|c}` am Wurzelelement der
   eigenen Seite oder Karte. **Shopware-Klassen (`sw-*`, `mt-*`) werden nicht global überschrieben**,
