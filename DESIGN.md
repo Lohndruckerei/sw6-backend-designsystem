@@ -18,11 +18,40 @@ Zweck: Mitarbeiter finden in jedem Plugin dasselbe Aussehen und dieselbe Bedienu
 
 ---
 
-## 1. Bereitstellung: Regeln, kein gemeinsamer Code
+## 1. Bereitstellung: zentrale Vorlage, Kopie je Plugin
 
-Entschieden am 07.11.2026: Es gibt **kein Basis-Plugin und kein gemeinsames Code-Paket**. Das
-Designsystem ist dieses Regelwerk. Jedes Plugin setzt die Bausteine **selbst und eigenständig** um
-und läuft ohne die anderen Plugins.
+Entschieden am 07.11.2026: **Kein Basis-Plugin.** Dieses Projekt ist die zentrale Quelle für das
+„Lohndruckerei“-Backend-Design: Regeln (diese Datei) und gemeinsame Admin-Bausteine (`vorlage/`).
+Jedes Plugin bekommt eine **generierte Kopie** und läuft ohne die anderen Plugins.
+
+```
+ld-admin-design/
+├── DESIGN.md        Regeln (diese Datei)
+├── VERSION          Version der Vorlage
+├── plugins.conf     Plugins, Präfix, Plugin-Name, angebunden ja/nein
+├── sync.sh          überträgt die Vorlage in die Plugins
+└── vorlage/         index.js (Store, Mixin, Registrierung), constants.js, design.scss,
+                     component/{design-switch,status,chip,transport-chip,tabs}, snippet/
+```
+
+- **Ziel im Plugin:** `src/Resources/app/administration/src/ld-admin-design/` – generiert, jede
+  Datei trägt den Kopf „GENERIERT … nicht hier ändern“. Einbinden in `main.js`:
+  `import './ld-admin-design';` (bringt auch die eigenen Snippets mit).
+- **Änderungen nur hier:** in `vorlage/` ändern, `VERSION` erhöhen, committen, dann
+  `./sync.sh all --build` (alle angebundenen Plugins + Admin-Build), in jedem Plugin im Shop prüfen
+  und dort committen. `./sync.sh all --check` zeigt, welches Plugin veraltet ist.
+- **Platzhalter in der Vorlage:** `__P__` = Präfix (`ld`, `lm` …), `__PLUGIN__` = technischer
+  Plugin-Name, `__KEY__` = Schlüssel für `user_config`.
+- **Fachliches bleibt im Plugin:** Lieferantenstatus, Seitenlayouts (`ld-supplier-list__content`,
+  `lm-areas` …) und plugin-eigene Bausteine gehören in das Plugin, nicht in die Vorlage. Was zwei
+  Plugins brauchen, wandert in die Vorlage.
+- **Anbinden eines Plugins (einmalig, je Plugin abstimmen):** eigenen `design/`-Ordner entfernen,
+  `import './ld-admin-design'` statt `import './design'`, Komponenten auf die Vorlage umstellen
+  (z. B. `ld-transport-chip` jetzt über Kategorie-Farben), plugin-spezifische Styles ins Plugin
+  verschieben, in `plugins.conf` auf `ja` setzen, `./sync.sh <name> --build`, testen. `sync.sh`
+  bricht ab, solange der alte Store noch registriert ist.
+- In der `CLAUDE.md` jedes angebundenen Plugins steht: „Admin-Design kommt aus
+  ~/projekte/ld-admin-design – dort ändern, nicht lokal.“
 
 Damit sich Plugins im Admin nicht gegenseitig überschreiben (Komponenten, Stores, Mixins und Styles
 sind in Shopware global), gilt:
@@ -44,10 +73,8 @@ sind in Shopware global), gilt:
 - Alle Regeln hängen an `.<präfix>-design` bzw. `.<präfix>-design--{a|b|c}` am Wurzelelement der
   eigenen Seite oder Karte. **Shopware-Klassen (`sw-*`, `mt-*`) werden nicht global überschrieben**,
   sondern nur innerhalb des eigenen Wurzelelements (z. B. leere Zustände in Design B).
-- Ausgangspunkt für ein neues Plugin: den Ordner `src/Resources/app/administration/src/design/`
-  aus Mensura kopieren und das Präfix vollständig ersetzen (Dateinamen, Klassen, Variablen, Store,
-  Mixin, Snippets, Konfigurationsschlüssel). Fachliche Helfer (z. B. Lieferantenstatus) gehören
-  nicht in den Design-Ordner.
+- Neues Plugin: Zeile in `plugins.conf` ergänzen und `./sync.sh <name>` ausführen – nicht von
+  Hand kopieren.
 
 ## 2. Grundsätze
 
@@ -214,8 +241,10 @@ Props `state` (`ok`/`warn`/`err`/`off`) und `label` (Snippet, nie fest verdrahte
 - **B:** Pill mit Icon und Wort.
 - **C:** Farbpunkt 8 px + Wort, ohne Hintergrund.
 
-### 7.3 Chip `p-chip` (Kategorie / Übertragungsweg)
-Setzt `--p-t` auf eine Kategorie-Farbe; Icon 12 px + Bezeichnung. Mehrere Chips mit 4 px Abstand.
+### 7.3 Chip `p-chip` (Kategorie) und `p-transport-chip` (Übertragungsweg)
+`<p-chip label="…" color="c1|c2|c3|c4" icon="regular-…" />` setzt `--p-t` auf die
+Kategorie-Farbe; Icon 12 px + Bezeichnung. Mehrere Chips mit 4 px Abstand.
+`<p-transport-chip transport="email" />` nimmt Farbe, Icon und Bezeichnung fest aus der Vorlage.
 - **A:** grau hinterlegt, Icon in Kategorie-Farbe.
 - **B:** getönt (13 %), 3 px Farbbalken links, Text dunkel gemischt.
 - **C:** 8-px-Quadrat in Kategorie-Farbe + Text, ohne Icon.
@@ -266,7 +295,7 @@ Inaktive Einträge bleiben sichtbar, Kacheln mit 65 % Deckkraft.
 `sw-empty-state` (bzw. `mt-empty-state`) mit Icon 32 px, Titel „Noch keine …“, **ein** Satz, was
 hierher gehört, und **ein** Button für die erste Aktion. In B ist das Icon in Markenfarbe
 (nur innerhalb des eigenen Wurzelelements überschrieben). Optional Schrittfolge (gestrichelte
-Kästchen 1 → 2 → 3) für Bereiche, die eine Einrichtung brauchen.
+Kästchen 1 → 2 → 3, `p-empty-steps` / `p-empty-step`) für Bereiche, die eine Einrichtung brauchen.
 
 Beispiel: „Noch keine Schnittstelle · Lege fest, wie Bestellungen zu diesem Lieferanten kommen,
 z. B. per E-Mail oder SFTP. · [Schnittstelle hinzufügen]“.
@@ -305,9 +334,10 @@ was mitgelöscht wird.
 
 ## 9. Checkliste für ein neues Plugin
 
-1. Freies Präfix wählen und in Abschnitt 1 eintragen.
-2. Design-Ordner aus Mensura übernehmen, Präfix ersetzen, Konfigurationsfeld `adminDesign`
-   (`config.xml`, Auswahl A/B/C, Standard B) und Snippets anlegen.
+1. Freies Präfix wählen, in Abschnitt 1 und in `plugins.conf` eintragen (angebunden `ja`).
+2. `./sync.sh <name>` ausführen, in `main.js` `import './ld-admin-design';`, Konfigurationsfeld
+   `adminDesign` anlegen (`config.xml`, Auswahl A/B/C, Standard B), in die `CLAUDE.md` des Plugins
+   den Hinweis „Admin-Design kommt aus ~/projekte/ld-admin-design – dort ändern, nicht lokal“.
 3. Modul mit Farbe `#0B6E79` und passendem Icon registrieren; Menüplatz nach 7.4.
 4. Listenseite nach 7.7, Detailseite mit Kopfkarte und Reitern nach 7.4/7.5.
 5. Leere Zustände, Hilfetexte und Fehlertexte nach 7.8/7.9 – für jedes Feld.

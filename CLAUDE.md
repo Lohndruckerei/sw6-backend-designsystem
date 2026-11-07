@@ -1,16 +1,19 @@
-# Projekt: ld-admin-design (Admin-Designrichtlinien der Lohndruckerei)
+# Projekt: ld-admin-design („Lohndruckerei“-Backend-Design)
 
-Dieses Projekt enthält **nur Regeln, keinen Plugin-Code**: die verbindlichen Gestaltungs- und
-Bedienrichtlinien für die Shopware-Administration aller Lohndruckerei-Plugins.
-Ziel: Die Mitarbeiter finden in jedem Plugin dasselbe Aussehen und dieselbe Bedienung vor, und die
-Bedienung bleibt intuitiv.
+Zentrale Quelle für das Aussehen und die Bedienung der **Shopware-Administration** aller
+Lohndruckerei-Plugins (LieferLotse, Mensura und alle weiteren). Ziel: Die Mitarbeiter finden in
+jedem Plugin dasselbe Look-and-Feel vor, und die Bedienung bleibt intuitiv.
 
-- Maßgeblich ist [DESIGN.md](DESIGN.md).
+- Regeln: [DESIGN.md](DESIGN.md). Gemeinsame Admin-Bausteine: `vorlage/`.
+- Es gibt kein Basis-Plugin. `./sync.sh` kopiert die Vorlage mit dem Präfix des jeweiligen Plugins
+  nach `src/Resources/app/administration/src/ld-admin-design/` in jedes Plugin aus `plugins.conf`.
+- Änderung am Design: `vorlage/` und DESIGN.md anpassen, `VERSION` erhöhen, committen,
+  `./sync.sh all --build`, in jedem Plugin im Shop prüfen und im Plugin-Repo committen.
+- Ein Plugin anbinden oder umstellen (eigenen `design/`-Ordner ablösen) nur nach Abstimmung mit
+  dem Benutzer; in LieferLotse und Mensura wird parallel entwickelt.
 - Gilt nur für das Backend. Das Frontend bekommt ein gesondertes Storefront-Theme (eigenes Projekt).
-- Es gibt bewusst kein Basis-Plugin und kein gemeinsames Code-Paket. Jedes Plugin setzt die Regeln
-  eigenständig um, mit eigenem Präfix (siehe DESIGN.md, Abschnitt 1).
-- Änderungen an den Richtlinien hier pflegen und kurz begründen. Die Plugins werden danach in ihren
-  eigenen Projekten nachgezogen, nicht von hier aus.
-- Offene Entscheidung: Designrichtung A, B oder C (Praxistest in LieferLotse und Mensura). Ist sie
-  gefallen, DESIGN.md auf eine Richtung reduzieren.
-- Texte auf Deutsch; Snippet-Beispiele in de-DE und en-GB.
+- Offene Entscheidung: Designrichtung A, B oder C. Ist sie gefallen, Vorlage und DESIGN.md auf eine
+  Richtung reduzieren und den Schalter entfernen.
+- Shell-Befehle in WSL über Skriptdateien ausführen (`wsl -d ubuntu -e bash …`). Nach Änderungen
+  an `sync.sh` per Windows-Pfad das Ausführungsrecht prüfen (`chmod +x`).
+- Texte auf Deutsch; Snippets in de-DE und en-GB.

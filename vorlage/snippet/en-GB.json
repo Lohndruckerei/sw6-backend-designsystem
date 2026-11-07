@@ -1,0 +1,26 @@
+{
+    "__P__-design": {
+        "switchLabel": "Design",
+        "default": "default",
+        "designs": {
+            "a": "A · Harbour",
+            "b": "B · Press sheet",
+            "c": "C · Compass"
+        },
+        "states": {
+            "ok": "Active",
+            "warn": "Check",
+            "err": "Error",
+            "off": "Inactive"
+        },
+        "transports": {
+            "email": "Email",
+            "ftp": "FTP",
+            "sftp": "SFTP",
+            "portal_manual": "B2B portal",
+            "rest_api": "REST API",
+            "soap": "SOAP",
+            "webhook": "Webhook"
+        }
+    }
+}

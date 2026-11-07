@@ -1,0 +1,667 @@
+// Lohndruckerei Admin-Design: A · Hafen, B · Druckbogen, C · Kompass.
+// Alle Regeln hängen an .__P__-design / .__P__-design--{a|b|c}; Shopware-Klassen werden nur
+// innerhalb dieses Wurzelelements angepasst. Werte und Regeln: DESIGN.md.
+
+$p-text: var(--color-text-primary-default, #1c1c1c);
+$p-text2: var(--color-text-secondary-default, #52667a);
+$p-text3: var(--color-text-tertiary-default, #8a97a6);
+$p-border: var(--color-border-primary-default, #d1d9e0);
+$p-surface: var(--color-elevation-surface-raised, #ffffff);
+$p-sunken: var(--color-background-tertiary-default, #f0f2f5);
+$p-primary: var(--color-interaction-primary-default, #0870ff);
+
+// ---------- Tokens ----------
+.__P__-design {
+    --__P__-ok: #14802e;
+    --__P__-ok-bg: #e1ffe0;
+    --__P__-ok-dot: #36d046;
+    --__P__-warn: #975a00;
+    --__P__-warn-bg: #fff3e3;
+    --__P__-warn-dot: #fbaf18;
+    --__P__-err: #c20017;
+    --__P__-err-bg: #fff2f0;
+    --__P__-err-dot: #e2262a;
+    --__P__-off: #696a6e;
+    --__P__-off-bg: #eef0f4;
+    --__P__-off-dot: #{$p-text3};
+}
+
+.__P__-design--a {
+    --__P__-brand: #57d9a3;
+    --__P__-brand-ink: #0e7a52;
+    --__P__-accent: #0870ff;
+    --__P__-c1: #0870ff;
+    --__P__-c2: #633bc6;
+    --__P__-c3: #0f9d8f;
+    --__P__-c4: #d97706;
+}
+
+.__P__-design--b {
+    --__P__-brand: #0b6e79;
+    --__P__-brand-ink: #0b6e79;
+    --__P__-accent: #e5007e;
+    // Druckfarben: Cyan, Magenta, Gelb, Schwarz (Key)
+    --__P__-c1: #009fe3;
+    --__P__-c2: #e5007e;
+    --__P__-c3: #e0a800;
+    --__P__-c4: #2b2b33;
+}
+
+.__P__-design--c {
+    --__P__-brand: #243758;
+    --__P__-brand-ink: #243758;
+    --__P__-accent: #ff8a00;
+    --__P__-c1: #2f80ed;
+    --__P__-c2: #8e44ad;
+    --__P__-c3: #16a085;
+    --__P__-c4: #e67e22;
+}
+
+// ---------- Schalter „Design A | B | C“ ----------
+.__P__-design-switch {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+    border: 1px solid $p-border;
+    border-radius: 6px;
+    overflow: hidden;
+    background: $p-surface;
+    font-size: 12px;
+
+    &__label {
+        padding: 0 10px;
+        color: $p-text2;
+        border-right: 1px solid $p-border;
+        line-height: 30px;
+    }
+
+    &__option {
+        min-width: 30px;
+        height: 30px;
+        border: 0;
+        background: none;
+        color: $p-text2;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+            background: $p-sunken;
+        }
+
+        &.is--active {
+            background: var(--__P__-brand, #{$p-primary});
+            color: #fff;
+        }
+
+        & + & {
+            border-left: 1px solid $p-border;
+        }
+    }
+}
+
+// ---------- Kategorie-Chip ----------
+.__P__-chip {
+    --__P__-t: var(--__P__-c1);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    & + & {
+        margin-left: 4px;
+    }
+}
+
+.__P__-design--a .__P__-chip {
+    border-radius: 4px;
+    background: $p-sunken;
+    color: $p-text;
+
+    .__P__-chip__icon {
+        color: var(--__P__-t);
+    }
+}
+
+.__P__-design--b .__P__-chip {
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--__P__-t) 13%, transparent);
+    color: color-mix(in srgb, var(--__P__-t) 72%, #1c1c1c);
+    box-shadow: inset 3px 0 0 var(--__P__-t);
+}
+
+.__P__-design--c .__P__-chip {
+    padding: 0 4px 0 0;
+    background: none;
+    color: $p-text;
+    font-weight: 500;
+
+    .__P__-chip__icon {
+        display: none;
+    }
+
+    &::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--__P__-t);
+    }
+}
+
+// ---------- Status ----------
+.__P__-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &--ok { background: var(--__P__-ok-bg); color: var(--__P__-ok); }
+    &--warn { background: var(--__P__-warn-bg); color: var(--__P__-warn); }
+    &--err { background: var(--__P__-err-bg); color: var(--__P__-err); }
+    &--off { background: var(--__P__-off-bg); color: var(--__P__-off); }
+}
+
+.__P__-design--a .__P__-status {
+    padding: 1px 8px;
+    border-radius: 4px;
+
+    .__P__-status__icon {
+        display: none;
+    }
+}
+
+.__P__-design--c .__P__-status {
+    padding: 0;
+    background: none;
+    color: $p-text;
+    font-weight: 500;
+
+    .__P__-status__icon {
+        display: none;
+    }
+
+    &::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    &--ok::before { background: var(--__P__-ok-dot); }
+    &--warn::before { background: var(--__P__-warn-dot); }
+    &--err::before { background: var(--__P__-err-dot); }
+    &--off::before { background: var(--__P__-off-dot); }
+}
+
+// ---------- Reiter (B horizontal, C vertikal) ----------
+.__P__-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid $p-border;
+
+    &__item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: -1px;
+        padding: 10px 14px;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        background: none;
+        color: $p-text2;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover {
+            color: $p-text;
+        }
+
+        &.is--active {
+            border-bottom-color: var(--__P__-brand);
+            color: var(--__P__-brand-ink);
+            font-weight: 600;
+        }
+    }
+
+    &__count {
+        min-width: 20px;
+        padding: 0 7px;
+        border-radius: 99px;
+        background: $p-sunken;
+        color: $p-text2;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: center;
+    }
+
+    &__item.is--warn &__count {
+        background: var(--__P__-warn-bg);
+        color: var(--__P__-warn);
+    }
+
+    &__warn {
+        color: var(--__P__-warn-dot);
+    }
+
+    &--vertical {
+        position: sticky;
+        top: 12px;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 2px;
+        margin: 0;
+        padding: 8px;
+        border: 1px solid $p-border;
+        border-radius: 8px;
+        background: $p-surface;
+
+        .__P__-tabs__group {
+            padding: 10px 10px 4px;
+            color: $p-text3;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .__P__-tabs__item {
+            width: 100%;
+            margin: 0;
+            padding: 9px 10px;
+            border: 0;
+            border-radius: 6px;
+            color: $p-text;
+            text-align: left;
+
+            .__P__-tabs__icon {
+                color: $p-text2;
+            }
+
+            .__P__-tabs__count {
+                margin-left: auto;
+            }
+
+            &.is--active {
+                background: color-mix(in srgb, var(--__P__-accent) 12%, transparent);
+                color: $p-text;
+
+                .__P__-tabs__icon {
+                    color: var(--__P__-accent);
+                }
+            }
+        }
+    }
+}
+
+// ---------- Kopfkarte der Detailseite (B, C) ----------
+.__P__-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    border: 1px solid $p-border;
+    border-radius: 8px;
+    background: $p-surface;
+
+    &__icon {
+        display: grid;
+        flex: none;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--__P__-brand) 14%, transparent);
+        color: var(--__P__-brand-ink);
+    }
+
+    &__main {
+        min-width: 0;
+    }
+
+    &__title {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        margin-top: 4px;
+        color: $p-text2;
+        font-size: 13px;
+    }
+
+    &__chips,
+    &__stats {
+        margin-left: auto;
+    }
+
+    &__stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    &__stat {
+        display: flex;
+        flex-direction: column;
+        color: $p-text2;
+        font-size: 12px;
+
+        b {
+            color: $p-text;
+            font-size: 16px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        &.is--warn b {
+            color: var(--__P__-warn);
+        }
+    }
+}
+
+.__P__-design--b .__P__-header {
+    border-top: 4px solid var(--__P__-brand);
+}
+
+// ---------- Detailseite C: Seitennavigation + Inhalt ----------
+.__P__-split {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+
+    @media (max-width: 1000px) {
+        grid-template-columns: minmax(0, 1fr);
+
+        .__P__-tabs--vertical {
+            position: static;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .__P__-tabs__group {
+                display: none;
+            }
+
+            .__P__-tabs__item {
+                width: auto;
+            }
+        }
+    }
+}
+
+// ---------- Seiteninhalt über randlosen Listen ----------
+// An den Inhaltsbereich einer Listenseite setzen: Filter, Kennzahlen, Kacheln bekommen 24 px Rand.
+.__P__-content {
+    > .__P__-filters,
+    > .__P__-kpis,
+    > .__P__-toolbar,
+    > .__P__-tiles,
+    > .sw-pagination {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+
+    > .__P__-filters,
+    > .__P__-kpis {
+        margin-top: 16px;
+    }
+}
+
+// ---------- Liste: Filterchips (B) ----------
+.__P__-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.__P__-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border: 1px solid $p-border;
+    border-radius: 99px;
+    background: $p-surface;
+    color: $p-text;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+
+    b {
+        color: $p-text2;
+        font-weight: 600;
+    }
+
+    &.is--active {
+        border-color: var(--__P__-brand);
+        background: color-mix(in srgb, var(--__P__-brand) 14%, transparent);
+        color: var(--__P__-brand-ink);
+    }
+}
+
+// ---------- Liste: Kennzahlen, Werkzeugleiste, Kacheln (C) ----------
+.__P__-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+
+    @media (max-width: 1000px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.__P__-kpi {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid $p-border;
+    border-radius: 8px;
+    background: $p-surface;
+    color: $p-text;
+    text-align: left;
+    cursor: pointer;
+
+    b {
+        display: block;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+    }
+
+    small {
+        color: $p-text2;
+        font-size: 12px;
+    }
+
+    &--all .mt-icon { color: var(--__P__-brand-ink); }
+    &--ok .mt-icon { color: var(--__P__-ok); }
+    &--warn .mt-icon { color: var(--__P__-warn-dot); }
+    &--err .mt-icon { color: var(--__P__-err); }
+    &--off .mt-icon { color: $p-text3; }
+
+    &.is--active {
+        border-color: var(--__P__-accent);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--__P__-accent) 20%, transparent);
+    }
+}
+
+.__P__-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.__P__-seg {
+    display: inline-flex;
+    margin-left: auto;
+    border: 1px solid $p-border;
+    border-radius: 6px;
+    overflow: hidden;
+
+    button {
+        display: flex;
+        padding: 6px 10px;
+        border: 0;
+        background: $p-surface;
+        color: $p-text2;
+        cursor: pointer;
+
+        &.is--active {
+            background: $p-sunken;
+            color: $p-text;
+        }
+    }
+}
+
+.__P__-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+}
+
+.__P__-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid $p-border;
+    border-radius: 8px;
+    background: $p-surface;
+    color: $p-text;
+    text-align: left;
+    text-decoration: none;
+
+    &:hover {
+        border-color: var(--__P__-accent);
+    }
+
+    &.is--inactive {
+        opacity: .65;
+    }
+
+    &__top {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+
+        b {
+            display: block;
+            font-size: 14.5px;
+        }
+
+        small {
+            color: $p-text3;
+            font-size: 12px;
+        }
+    }
+
+    &__status {
+        margin-left: auto;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+        padding-top: 10px;
+        border-top: 1px solid $p-border;
+        color: $p-text2;
+        font-size: 12.5px;
+    }
+}
+
+// ---------- Icon-Kachel, Namenszelle, Hilfsklassen ----------
+.__P__-sicon {
+    display: grid;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--__P__-brand) 14%, transparent);
+    color: var(--__P__-brand-ink);
+
+    &--large {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+    }
+
+    &.is--off {
+        background: var(--__P__-off-bg);
+        color: $p-text3;
+    }
+}
+
+.__P__-namecell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    a {
+        font-weight: 600;
+    }
+
+    small {
+        display: block;
+        color: $p-text3;
+        font-size: 12px;
+    }
+}
+
+.__P__-muted {
+    color: $p-text3;
+}
+
+// ---------- Leere Zustände ----------
+.__P__-empty-steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.__P__-empty-step {
+    padding: 5px 10px;
+    border: 1px dashed $p-border;
+    border-radius: 6px;
+    color: $p-text2;
+    font-size: 12.5px;
+}
+
+// Design B: Icon leerer Zustände in Markenfarbe (nur im eigenen Wurzelelement)
+.__P__-design--b .sw-empty-state__icon,
+.__P__-design--b .sw-empty-state .mt-icon {
+    color: var(--__P__-brand-ink);
+}
