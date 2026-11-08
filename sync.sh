@@ -32,7 +32,7 @@ render() { # render <prefix> <plugin> <key> <ziel>
     rm -rf "$out"
     mkdir -p "$out"
     cp -r "$ROOT/vorlage/." "$out/"
-    local header="GENERIERT aus ld-admin-design ${VERSION} (${COMMIT}) – nicht hier ändern, sondern in ~/projekte/ld-admin-design/vorlage und ./sync.sh ausführen."
+    local header="GENERIERT aus ld-admin-design ${VERSION} (${COMMIT}) – nicht hier ändern, sondern in ~/projekte/sw6-entwicklung-lohndruckerei/ld-admin-design/vorlage und ./sync.sh ausführen."
     while IFS= read -r -d '' f; do
         sed -i -e "s/__PLUGIN__/${plugin}/g" -e "s/__KEY__/${key}/g" -e "s/__P__/${prefix}/g" "$f"
         case "$f" in
@@ -47,7 +47,7 @@ ${header}
 
 Version: ${VERSION} · Stand: ${COMMIT} · Präfix: \`${prefix}-\` · Plugin: ${plugin}
 
-Regeln und Bausteine: ~/projekte/ld-admin-design/DESIGN.md
+Regeln und Bausteine: ~/projekte/sw6-entwicklung-lohndruckerei/ld-admin-design/DESIGN.md
 EOF
     if grep -rq "__P__\|__PLUGIN__\|__KEY__" "$out"; then
         die "Platzhalter nicht vollständig ersetzt in $out"

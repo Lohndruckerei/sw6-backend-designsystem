@@ -51,7 +51,7 @@ ld-admin-design/
   verschieben, in `plugins.conf` auf `ja` setzen, `./sync.sh <name> --build`, testen. `sync.sh`
   bricht ab, solange der alte Store noch registriert ist.
 - In der `CLAUDE.md` jedes angebundenen Plugins steht: „Admin-Design kommt aus
-  ~/projekte/ld-admin-design – dort ändern, nicht lokal.“
+  ~/projekte/sw6-entwicklung-lohndruckerei/ld-admin-design – dort ändern, nicht lokal.“
 
 Damit sich Plugins im Admin nicht gegenseitig überschreiben (Komponenten, Stores, Mixins und Styles
 sind in Shopware global), gilt:
@@ -337,7 +337,7 @@ was mitgelöscht wird.
 1. Freies Präfix wählen, in Abschnitt 1 und in `plugins.conf` eintragen (angebunden `ja`).
 2. `./sync.sh <name>` ausführen, in `main.js` `import './ld-admin-design';`, Konfigurationsfeld
    `adminDesign` anlegen (`config.xml`, Auswahl A/B/C, Standard B), in die `CLAUDE.md` des Plugins
-   den Hinweis „Admin-Design kommt aus ~/projekte/ld-admin-design – dort ändern, nicht lokal“.
+   den Hinweis „Admin-Design kommt aus ~/projekte/sw6-entwicklung-lohndruckerei/ld-admin-design – dort ändern, nicht lokal“.
 3. Modul mit Farbe `#0B6E79` und passendem Icon registrieren; Menüplatz nach 7.4.
 4. Listenseite nach 7.7, Detailseite mit Kopfkarte und Reitern nach 7.4/7.5.
 5. Leere Zustände, Hilfetexte und Fehlertexte nach 7.8/7.9 – für jedes Feld.
