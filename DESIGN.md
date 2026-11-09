@@ -221,6 +221,10 @@ Icon-Kacheln · 32 px in leeren Zuständen.
 | Hilfe | `regular-question-circle` | Tipp | `regular-lightbulb` |
 | Info | `regular-info-circle` | Einstellungen | `regular-cog` |
 | Aktionsmenü | `regular-ellipsis-h-s` | Hinzufügen | `regular-plus-circle` |
+| Optionen / Regler | `regular-sliders-v` | Shop / Verkauf | `regular-shopping-bag` |
+| Kopieren / Übernehmen | `regular-copy` | Löschen / Entfernen | `regular-trash` |
+| Bevorzugt / Bestseller | `regular-star` | Im Shop ansehen (extern) | `regular-external-link` |
+| Auf- / Zuklappen | `regular-chevron-up-s` / `regular-chevron-down-s` | | |
 
 Nicht vorhanden (nicht verwenden): `regular-calculator`, `regular-euro-sign`, `regular-print`,
 `regular-palette`, `regular-grid`. Vor neuen Icons im Container prüfen:
