@@ -14,7 +14,7 @@ import { MARKER_COLORS, MARKER_FALLBACK_COLOR, MARKER_ROUTES } from './constants
 
 const STORAGE_KEY = 'ld-admin-marker';
 const ROOT_ATTR = 'data-ld-marker';
-const FIELD = '.mt-base-field, .sw-field, .mt-textarea, .mt-select, .sw-select, .mt-switch, .sw-text-editor, .mt-text-editor';
+const FIELD = '.mt-field, .mt-base-field,.sw-field, .mt-textarea, .mt-select, .sw-select, .mt-switch, .sw-text-editor, .mt-text-editor';
 const HELP = '.mt-help-text, .sw-help-text';
 const LINKS = '.sw-admin-menu a[href], .sw-tabs a[href], a.sw-tabs-item[href]';
 const SCAN_MS = 1000;
