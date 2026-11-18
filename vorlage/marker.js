@@ -196,7 +196,7 @@ function createManager() {
 
         const html = `
 <div data-ld-marker-legend-title>${escape(text('title'))}</div>
-${plugins.map((plugin) => `
+${[...plugins].sort((a, b) => a.label.localeCompare(b.label)).map((plugin) => `
 <div data-ld-marker-legend-row${counts.has(plugin) ? '' : ' data-ld-marker-legend-idle'}>
     <span data-ld-marker-legend-dot style="background:${plugin.color}"></span>${escape(plugin.label)}
 </div>`).join('')}
