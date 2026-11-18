@@ -30,7 +30,7 @@ ld-admin-design/
 ├── VERSION          Version der Vorlage
 ├── plugins.conf     Plugins, Präfix, Plugin-Name, angebunden ja/nein
 ├── sync.sh          überträgt die Vorlage in die Plugins
-└── vorlage/         index.js (Store, Mixin, Registrierung), constants.js, design.scss,
+└── vorlage/         index.js (Store, Mixin, Registrierung), marker.js, constants.js, design.scss,
                      component/{design-switch,status,chip,transport-chip,tabs}, snippet/
 ```
 
@@ -322,6 +322,39 @@ z. B. per E-Mail oder SFTP. · [Schnittstelle hinzufügen]“.
 Trennlinie, „Löschen“ (`variant="danger"`) zuletzt; Löschen fragt per `sw-modal` nach und nennt,
 was mitgelöscht wird.
 
+### 7.11 Plugin-Markierung (Testmodus)
+Zeigt beim Testen, wo die Lohndruckerei-Plugins im Admin stecken und wo Hilfetexte fehlen.
+Eingeführt am 18.11.2026 (Vorlage 1.1.0), `vorlage/marker.js`.
+
+- **Einschalten:** `Alt+Umschalt+M` überall im Admin oder „Markieren“ im Design-Schalter (Smart-Bar).
+  Gilt für **alle** Plugins zugleich, gespeichert je Browser (`localStorage` `ld-admin-marker`),
+  Standard aus. Kein Recht nötig, ändert keine Daten.
+- **Plugin-Bereiche:** Jedes oberste Element mit Präfix-Klasse (eigene Seiten, Karten, Erweiterungen in
+  Shopware-Seiten wie der Produkt-Reiter „Mensura“) bekommt einen Rahmen und ein Namensschild oben
+  rechts. Menüpunkte und Reiter, deren Link den Modulnamen enthält (`ld-mensura` → „mensura“), bekommen
+  einen Farbbalken links. Voraussetzung: Erweiterungen in Shopware-Seiten haben ein Wurzelelement mit
+  Präfix-Klasse (z. B. `lm-product-tab`).
+- **Hilfetext fehlt:** Felder (`mt-*`/`sw-*`-Feld mit Beschriftung) innerhalb eines Plugin-Bereichs ohne
+  `help-text` werden rot gestrichelt umrandet, die Beschriftung bekommt „⚠ Hilfetext fehlt“. Felder ohne
+  Beschriftung (z. B. in Tabellenzeilen) zählen nicht. Die Legende unten rechts zählt sie; „Nächstes“
+  springt zum nächsten Feld.
+- **Farben je Plugin** (nur Markierung, nicht für die Oberfläche verwenden; Rot bleibt „Hilfetext fehlt“):
+
+  | Präfix | Plugin | Farbe |
+  |---|---|---|
+  | `ld-` | LieferLotse | `#0F9D8F` |
+  | `lm-` | Mensura | `#0870FF` |
+  | `lv-` | Vectura | `#D97706` |
+  | `lo-` | Ordo | `#633BC6` |
+  | `lp-` | Proba | `#E5007E` |
+  | `lu-` | Opus | `#2B2B33` |
+  | – | Hilfetext fehlt | `#E2262A` gestrichelt |
+
+  Neues Plugin: Farbe in `vorlage/constants.js` (`MARKER_COLORS`) und hier ergänzen.
+- Technik: Der erste geladene Plugin-Stand richtet `window.ldAdminMarker` ein, alle anderen melden sich
+  an. Markiert wird über `data-ld-marker-*`-Attribute (einmal je Sekunde neu ermittelt, nur wenn
+  eingeschaltet); Shopware-Klassen werden nicht verändert.
+
 ## 8. CSS- und Code-Regeln
 
 - BEM mit Präfix: `p-<block>__<element>--<modifier>`; Zustände als `is--active`, `is--warn`,
@@ -344,7 +377,8 @@ was mitgelöscht wird.
    den Hinweis „Admin-Design kommt aus ~/projekte/sw6-entwicklung-lohndruckerei/ld-admin-design – dort ändern, nicht lokal“.
 3. Modul mit Farbe `#0B6E79` und passendem Icon registrieren; Menüplatz nach 7.4.
 4. Listenseite nach 7.7, Detailseite mit Kopfkarte und Reitern nach 7.4/7.5.
-5. Leere Zustände, Hilfetexte und Fehlertexte nach 7.8/7.9 – für jedes Feld.
+5. Leere Zustände, Hilfetexte und Fehlertexte nach 7.8/7.9 – für jedes Feld. Mit der
+   Plugin-Markierung (7.11) prüfen: Zähler „Felder ohne Hilfetext“ muss auf jeder Seite 0 sein.
 6. Rechte je Bereich (Shopware-Rollen); nicht erlaubte Aktionen ausblenden oder deaktivieren.
 7. Im Shop in **allen drei Richtungen** prüfen, auch bei schmalem Fenster (unter 1000 px).
 

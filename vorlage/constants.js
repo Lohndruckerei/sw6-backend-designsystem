@@ -14,6 +14,20 @@ export const STATUS_ICONS = {
 export const CATEGORY_COLORS = ['c1', 'c2', 'c3', 'c4'];
 
 /**
+ * Plugin-Markierung (Testmodus): feste Farbe je Plugin-Präfix (DESIGN.md 7.11).
+ * Rot ist für „Hilfetext fehlt“ reserviert.
+ */
+export const MARKER_COLORS = {
+    ld: '#0f9d8f', // LieferLotse
+    lm: '#0870ff', // Mensura
+    lv: '#d97706', // Vectura
+    lo: '#633bc6', // Ordo
+    lp: '#e5007e', // Proba
+    lu: '#2b2b33', // Opus
+};
+export const MARKER_FALLBACK_COLOR = '#0b6e79';
+
+/**
  * Übertragungswege: feste Farbe und festes Icon in allen Plugins.
  */
 export const TRANSPORTS = {

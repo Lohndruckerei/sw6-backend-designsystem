@@ -2,6 +2,7 @@ import { DESIGNS } from '../../constants';
 
 /**
  * Schalter „Design A | B | C“ für den Praxistest. Speichert die Wahl je Benutzer.
+ * Dahinter „Markieren“: Plugin-Markierung (Testmodus) für alle Lohndruckerei-Plugins, siehe marker.js.
  * Platz: Smart-Bar (#smart-bar-actions), vor „Speichern“.
  */
 export default {
@@ -20,7 +21,24 @@ export default {
     >
         {{ design.key.toUpperCase() }}
     </button>
+    <button
+        v-tooltip.bottom="{ message: $tc('__P__-design.marker.toggleTitle'), appearance: 'light' }"
+        type="button"
+        class="__P__-design-switch__option __P__-design-switch__marker"
+        :class="{ 'is--active': markerActive }"
+        :aria-pressed="markerActive ? 'true' : 'false'"
+        @click="toggleMarker"
+    >
+        {{ $tc('__P__-design.marker.toggle') }}
+    </button>
 </div>`,
+
+    data() {
+        return {
+            markerActive: window.ldAdminMarker?.active ?? false,
+            markerOff: null,
+        };
+    },
 
     computed: {
         store() {
@@ -45,9 +63,20 @@ export default {
 
     created() {
         this.store.ensureLoaded();
+        this.markerOff = window.ldAdminMarker?.onChange((active) => {
+            this.markerActive = active;
+        }) ?? null;
+    },
+
+    unmounted() {
+        this.markerOff?.();
     },
 
     methods: {
+        toggleMarker() {
+            window.ldAdminMarker?.toggle();
+        },
+
         async select(design) {
             if (design === this.current) {
                 return;

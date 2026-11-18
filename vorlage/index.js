@@ -12,6 +12,7 @@ import './design.scss';
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
 import { DESIGNS, DEFAULT_DESIGN } from './constants';
+import registerMarker from './marker';
 
 const STORE_ID = '__P__Design';
 const USER_CONFIG_KEY = '__KEY__.admin-design';
@@ -22,6 +23,9 @@ const normalize = (value) => (DESIGNS.includes(value) ? value : null);
 
 Shopware.Locale.extend('de-DE', deDE);
 Shopware.Locale.extend('en-GB', enGB);
+
+// Plugin-Markierung (Testmodus, Alt+Umschalt+M) – gemeinsam für alle Lohndruckerei-Plugins.
+registerMarker();
 
 Shopware.Store.register({
     id: STORE_ID,
