@@ -48,11 +48,16 @@ Shopware.Store.register({
         },
 
         async load() {
-            try {
-                const values = await Shopware.Service('systemConfigApiService').getValues(SYSTEM_CONFIG_DOMAIN);
-                this.defaultDesign = normalize(values?.[SYSTEM_CONFIG_KEY]) ?? DEFAULT_DESIGN;
-            } catch {
-                // Ohne Leserecht auf die Systemkonfiguration gilt der eingebaute Standard.
+            // Ohne Leserecht auf die Systemkonfiguration gilt der eingebaute Standard. Vorher prüfen,
+            // sonst meldet Shopware jede Abfrage als „Fehlende Berechtigungen“ (je Plugin einmal).
+            if (Shopware.Service('acl')?.can('system_config:read')) {
+                try {
+                    const values = await Shopware.Service('systemConfigApiService').getValues(SYSTEM_CONFIG_DOMAIN);
+                    this.defaultDesign = normalize(values?.[SYSTEM_CONFIG_KEY]) ?? DEFAULT_DESIGN;
+                } catch {
+                    this.defaultDesign = DEFAULT_DESIGN;
+                }
+            } else {
                 this.defaultDesign = DEFAULT_DESIGN;
             }
 
