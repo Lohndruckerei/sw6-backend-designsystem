@@ -28,6 +28,14 @@ export const MARKER_COLORS = {
 export const MARKER_FALLBACK_COLOR = '#0b6e79';
 
 /**
+ * Link-Bestandteile, an denen Menüpunkte und Reiter eines Plugins erkannt werden.
+ * Standard: Modulname aus dem Schlüssel (`ld-mensura` → `ld/mensura`, `ld-mensura`).
+ */
+export const MARKER_ROUTES = {
+    ld: ['ld/supplier', 'ld-supplier', 'ld-lieferlotse'],
+};
+
+/**
  * Übertragungswege: feste Farbe und festes Icon in allen Plugins.
  */
 export const TRANSPORTS = {

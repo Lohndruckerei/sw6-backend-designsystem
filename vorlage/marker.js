@@ -10,7 +10,7 @@
  * Jedes Plugin bringt diese Datei mit; der erste geladene Stand richtet die Markierung ein
  * (window.ldAdminMarker), alle weiteren melden sich nur an.
  */
-import { MARKER_COLORS, MARKER_FALLBACK_COLOR } from './constants';
+import { MARKER_COLORS, MARKER_FALLBACK_COLOR, MARKER_ROUTES } from './constants';
 
 const STORAGE_KEY = 'ld-admin-marker';
 const ROOT_ATTR = 'data-ld-marker';
@@ -98,8 +98,10 @@ function createManager() {
         plugins.forEach((plugin) => {
             const selector = `[class^="${plugin.prefix}-"], [class*=" ${plugin.prefix}-"]`;
             document.querySelectorAll(selector).forEach((element) => {
+                // Im Hauptmenü tragen Shopware-Einträge die Menü-ID als Klasse (z. B. `ld-ordo`) –
+                // dort zählt nur der Link (unten), nicht die Klasse.
                 if (element.parentElement?.closest(selector)
-                    || element.closest('[data-ld-marker-legend]')
+                    || element.closest('[data-ld-marker-legend], .sw-admin-menu')
                     || element.classList.contains(`${plugin.prefix}-design-switch`)) {
                     return;
                 }
@@ -107,7 +109,8 @@ function createManager() {
             });
 
             document.querySelectorAll(LINKS).forEach((link) => {
-                if ((link.getAttribute('href') || '').toLowerCase().includes(plugin.route)) {
+                const href = (link.getAttribute('href') || '').toLowerCase();
+                if (plugin.routes.some((route) => href.includes(route))) {
                     mark(next, link, plugin);
                 }
             });
@@ -283,7 +286,7 @@ export default function registerMarker() {
     window.ldAdminMarker.register({
         prefix: '__P__',
         label: '__PLUGIN__'.replace(/^Ld/, ''),
-        route: '__KEY__'.replace(/^ld-/, '').toLowerCase(),
+        routes: MARKER_ROUTES.__P__ ?? ['__KEY__'.replace('-', '/'), '__KEY__'],
         color: MARKER_COLORS.__P__ ?? MARKER_FALLBACK_COLOR,
     });
 }
